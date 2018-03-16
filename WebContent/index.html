@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="JMV56_SpotifyStyleSheet.css">
+<title>HTML5 Document</title>
+</head>
+<body>
+	<div id="titleDiv" name="titleDiv">
+		<p id="title" name="title">
+			Spotify Knockoff
+		</p>
+	</div>	
+	
+	<div id="mainContent" name="mainContent" class="row">
+
+		<div id="sideBarDiv" name="sideBarDiv" class="column">
+			<div id="radDiv" name="radDiv">
+				<input type="radio" name="radRadioButton" id="radRadioAlbums" class="radio"/>
+					<label for="radRadioAlbums" class="radLbl">Albums</label><br/>
+				<input type="radio" name="radRadioButton" id="radRadioArtists" class="radio"/>
+					<label for="radRadioArtists" class="radLbl">Artists</label><br/>
+				<input type="radio" name="radRadioButton" id="radRadioSongs" class="radio"/>
+					<label for="radRadioSongs" class="radLbl">Songs</label><br/>
+			</div>
+			
+			<div id="frmDiv" name="frmDiv">
+				<form id="frmSearch" name="frmSearch" method="post" action="SongList">
+					<input type="text" name="songTitle" value="" id="songTitle"  placeholder="search...">
+					<input type="submit" id="btnSubmit" value="Go">		
+				</form>	
+			</div>
+		</div>
+	
+		<div id="rghtContent" name="rghtContent">
+			<div id="tblDiv" name="tblDiv" class="column">
+				<table id="tblData" name="tblData">
+					<tr>
+						<th>Title</th>
+						<th>Artist</th>
+						<th>Length</th>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+					<tr>
+						<td>test</td>
+						<td>test</td>
+						<td>test</td>
+					</tr>
+				</table>
+			</div>
+		
+			<div id="artAndBio" name="artAndBio">
+				<p>Here is a bit of text</p>
+				<p>This space will be used to display album art and bio information when selected</p>
+			</div>
+		</div>
+	</div>
+		
+						
+	<div id="plyDiv" name="plyDiv">
+		<button id="btnPlayPause" name="btnPlayPause" class="button play"></button>
+	</div>			
+	
+	
+</body>
+</html>

@@ -1,0 +1,144 @@
+@charset "utf-8";
+
+html {
+	background: linear-gradient(#003300, black) no-repeat center center fixed;
+	background-size: cover;
+	font-family:verdana,sans-serif;
+	color:#f2f2f2;
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+body{
+	margin: 0px;
+	min-height: 100%;
+	width: 100%;
+}
+
+#titleDiv{
+	border-style: solid;
+	border-color: transparent;
+	background-color: rgba(0, 0, 0, 0.25);
+	background-size: cover;
+	margin: auto;
+}
+
+#title{
+	text-align:center;
+	padding:0px;
+	font-size: 35px;
+}
+
+#mainContent{
+	float: left;
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+#sideBarDiv{
+	margin: auto;
+	float: left;
+	position: relative;
+	padding-top: 100px;
+	padding-left: 0px;
+	width: 18%;
+	height:750px;
+	background-color: rgba(153, 153, 153, 0.25);
+	
+}
+
+#radDiv{
+	
+	padding-left: 85px;
+	
+}
+
+.radio{
+	margin-bottom: 15px;
+	margin-top: 15px;
+	border: 0px;
+  	vertical-align: middle;
+	height: 25px;
+	width: 25px;
+}
+
+.radLbl{
+	vertical-align: middle;
+    font-size: 25px;
+}
+
+#frmDiv{
+	position: absolute;
+	bottom: 0;
+	
+}
+
+#frmSearch{
+	padding-left: 15px;
+	padding-bottom: 30px;
+}
+
+#songTitle{
+	border: 2px solid black;
+	width: 200px;
+	height: 30px;
+	font-size: 14pt;
+	padding:4px;
+}
+
+#btnSubmit{
+	
+	background-color: #003300;
+	border: 2px solid black;
+	font-size: 25pt;
+	color: #f2f2f2;
+	text-align: center;
+}
+
+#rghtContent{
+	float: left;
+	width: 82%;
+}
+
+#tblDiv{
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+#tblData{
+	width: 100%;
+}
+
+th{
+	height: 50px;
+	border-bottom: 2px dotted black;
+}
+
+td{
+	padding: 10px;
+	border-left: 2px dotted black;
+}
+
+#plyDiv{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 75%;
+}
+
+.button.play{
+	background-color: transparent;
+	margin: 4px;
+	padding: 0px;
+	box-sizing: border-box;
+	width: 74px;
+	height: 74px;
+	border-style: solid;
+	border-width: 37px 0px 37px 74px;
+	border-color: transparent transparent transparent #009933;	
+}

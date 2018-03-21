@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web Service Test</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  
+ <script>
+ var artistList = null;
+
+
+ $(document).ready(function(){
+ 	$.get("GetArtistList?lastName=Clapton", function(data){
+ 		
+ 		artistList = data;
+ 		console.log(artistList);
+ 		
+ 	});
+ 	
+ 	
+ });
+ </script>
+</head>
+<body>
+
+</body>
+</html>

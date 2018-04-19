@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.json.JSONObject;
+
+import edu.pitt.spotify.utils.DbUtilities;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import javax.servlet.ServletException;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Spotify</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+	$(document).ready(function(){
+		//search("title", "Stairway");
+		$("#btnSearch").click(function(){
+			var searchTerm = $("#txtSearch").val();
+			var searchBy = $("#cboSearchBy").val();
+			search(searchBy, searchTerm);
+		})
+	});
+	
+function search(key, val){
+	var searchUrl = "api/get_songs?" + key + "=" + value;
+	//console.log(searchUrl);
+	$.get(searchUrl, function(data){
+		console.log(data);
+	})
+}
+
+function songSearchResults(data){
+	var tbl = $("#tblData");
+	tbl.empty();
+	for(var i = 0; i < data.length; i++){
+		var tr = $("<tr></tr>");
+		var td = $("<td></td>");
+		td.html(data[i].title);
+		
+		tr.append(td);
+		tbl.append(tr);
+	}
+}
+</script>
+</head>
+<body>
+<div>
+	<select id="cboSearchBy">
+		<option value="title">Search by song tile</option>
+		<option value="artist">Search by artist name</option>
+	</select>
+	<br />
+	<input type="text" id="txtSearch" value="" />
+	<br />
+	<input type="button" id="btnSearch" value="Search" />
+</div>
+<div>
+<table id="tblData" border="1" cellspacing="0" cellpadding="4">
+</table>
+</div>
+</body>
+</html>

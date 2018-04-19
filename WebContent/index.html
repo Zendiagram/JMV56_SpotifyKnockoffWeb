@@ -3,7 +3,242 @@
 <head>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="JMV56_SpotifyStyleSheet.css">
-<title>HTML5 Document</title>
+<title>Spotify Knockoff</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script>
+
+var searchResult = null;
+var selectedButton = null;
+var songLocation = null;
+var selectedSongId = null;
+var albArtLocation = null;
+var selectedAlbumId = null;
+var artistBio = null;
+var selectedArtistId = null;
+
+$(document).ready(function(){
+	
+	$(".radio").click(function(){
+		if ($("#radRadioAlbums").is(":checked")){
+			//alert("Albums is selected");
+			
+			tabAlbums();
+			
+			selectedButton = "radRadioAlbums";
+		}
+		
+		if ($("#radRadioArtists").is(":checked")){
+			//alert("Artists is selected");
+			
+			tabArtists();
+			
+			selectedButton = "radRadioArtists";
+		}
+		
+		if ($("#radRadioSongs").is(":checked")){
+			//alert("Songs is selected");
+			
+			tabSongs();
+			
+			selectedButton = "radRadioSongs";	
+		}
+		
+		var searchTerm = "";
+		
+		console.log(searchTerm);
+		search(searchTerm);
+	})  //end of radio button click funtion
+
+	$("#btnSubmit").click(function(){
+		
+		if ($("#radRadioAlbums").is(":checked")){
+			//alert("Albums is selected");
+			tabAlbums();
+		}
+		
+		if ($("#radRadioArtists").is(":checked")){
+			//alert("Artists is selected");
+			tabArtists();
+		}
+		
+		if ($("#radRadioSongs").is(":checked")){
+			//alert("Songs is selected");
+			tabSongs();
+		}
+		
+		
+		
+		var searchTerm = $("#searchBox").val();
+		
+		console.log(searchTerm);
+		search(searchTerm);
+	});  //end of submit button onclick function 
+	
+	var plyBttn = $("#btnPlayPause");
+	
+	plyBttn.click(function(){
+		console.log(songLocation);
+		if(songLocation != null){
+			plyBttn.toggleClass("pausebutton");
+			
+			playSong();
+			
+			var song = $("#sptfyAud").get(0);
+			
+			if (song.paused)
+				song.play();
+			else
+				song.pause();
+			
+			song.onended = function() {
+				console.log("The audio has ended")
+				plyBttn.toggleClass("pausebutton");
+			}
+			
+		}
+			
+	});  //end of play button function
+	
+	/*
+	$(".tblRow").click(function() {
+		alert("you clicked a row");
+	});
+	*/
+});  //end of doc ready
+
+
+
+function search(searchTerm){
+	var searchUrl = "api/search_spotifyko?searchTerm=" + searchTerm;
+	console.log(searchUrl);
+	$.get(searchUrl, function(data){
+		
+		songSearchResults(data);
+	});
+	
+}
+
+
+function songSearchResults(data){
+	ko.cleanNode(document.getElementById('tabBody'));
+	console.log(data);
+	ko.applyBindings(data, document.getElementById('tabBody'));
+	
+}
+
+function highLight(){
+	$("#tblData").on("click", "tr", function(e) {
+		//alert("you clicked a row");
+		
+		$(this).addClass('selected').siblings().removeClass('selected');
+		//alert$(this).attr('class'));
+		
+		if ($("#radRadioAlbums").is(":checked")){
+			albArtLocation = $(".selected td:nth-child(7)").text();
+			selectedAlbId = $(".selected td:nth-child(8)").text();
+			//console.log(albArtLocation + selectedAlbId);
+		}
+		
+		if ($("#radRadioArtists").is(":checked")){
+			artistBio = $(".selected td:nth-child(4)").text();
+			selectedArtistId = $(".selected td:nth-child(5)").text();
+			//console.log(artistBio + selectedArtistId);
+		}
+		
+		if ($("#radRadioSongs").is(":checked")){
+			songLocation = "songs/AbaloneStreet.mp3"  //$(".selected td:nth-child(4)").text();
+			selectedSongId = $(".selected td:nth-child(5)").text();
+			//console.log(songLocation + selectedSongId);
+		}
+	});	
+	
+	
+}
+
+function tabSongs(){
+
+	$("#tblData").html(
+			'<thead id="tblHead" name="tblHead">'+
+				'<tr><th>Title</th><th>Length</th><th>Release Date</th></tr>'+
+			'</thead>'+
+			'<tbody name="tabBody" id="tabBody" data-bind="foreach: songs">'+
+				'<tr class="tblRow">'+
+					'<td data-bind="text: title"></td>'+
+					'<td data-bind="text: length"></td>'+
+					'<td data-bind="text: release_date"></td>'+
+					'<td class="inviso" data-bind="text: file_path"></td>'+
+					'<td class="inviso" data-bind="text: song_id"></td>'+
+				'</tr>'+
+			'</tbody>'
+		);
+		
+		highLight();
+}
+
+function tabArtists(){
+	
+	$("#tblData").html(
+			'<thead id="tblHead" name="tblHead">'+
+				'<tr><th>First Name</th><th>Last Name</th><th>Band</th></tr>'+
+			'</thead>'+
+			'<tbody name="tabBody" id="tabBody" data-bind="foreach: artists">'+
+				'<tr class="tblRow">'+
+					'<td data-bind="text: first_name"></td>'+
+					'<td data-bind="text: last_name"></td>'+
+					'<td data-bind="text: band_name"></td>'+
+					'<td class="inviso" data-bind="text: bio"></td>'+
+					'<td class="inviso" data-bind="text: artist_id"></td>'+				
+				'</tr>'+
+			'</tbody>'	
+		);
+	
+	highLight();
+}
+
+function tabAlbums(){
+	
+	$("#tblData").html(
+			'<thead id="tblHead" name="tblHead">'+
+				'<tr><th>Title</th><th>Length</th><th>Release Date</th><th>PMRC Rating</th><th>Number of Tracks</th><th>Recording Company</th></tr>'+
+			'</thead>'+
+			'<tbody name="tabBody" id="tabBody" data-bind="foreach: albums">'+
+				'<tr class="tblRow">'+
+					'<td data-bind="text: title"></td>'+
+					'<td data-bind="text: length"></td>'+
+					'<td data-bind="text: release_date"></td>'+
+					'<td data-bind="text: PMRC_rating"></td>'+
+					'<td data-bind="text: number_of_tracks"></td>'+
+					'<td data-bind="text: recording_company_name"></td>'+
+					'<td class="inviso" data-bind="text: cover_image_path"></td>'+
+					'<td class="inviso" data-bind="text: album_id"></td>'+
+				'</tr>'+
+			'</tbody>'
+		);
+		
+		highLight();
+}
+
+function playSong(){
+	$("#sptfyAud").html(
+		'<source src="' + songLocation + '" type="audio/mp3">'
+	);
+}
+
+function songList(){
+	self = this;
+}
+
+function albumList(){
+	self = this;
+}
+
+function artistList(){
+	self = this;
+}
+
+
+</script>
 </head>
 <body>
 	<div id="titleDiv" name="titleDiv">
@@ -25,71 +260,30 @@
 			</div>
 			
 			<div id="frmDiv" name="frmDiv">
-				<form id="frmSearch" name="frmSearch" method="post" action="SongList">
-					<input type="text" name="songTitle" value="" id="songTitle"  placeholder="search...">
-					<input type="submit" id="btnSubmit" value="Go">		
-				</form>	
+				
+				<input type="text" name="searchBox" value="" id="searchBox"  placeholder="search...">
+				<input type="submit" id="btnSubmit" value="Go">		
+				
 			</div>
 		</div>
 	
 		<div id="rghtContent" name="rghtContent">
 			<div id="tblDiv" name="tblDiv" class="column">
 				<table id="tblData" name="tblData">
-					<tr>
-						<th>Title</th>
-						<th>Artist</th>
-						<th>Length</th>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
-					<tr>
-						<td>test</td>
-						<td>test</td>
-						<td>test</td>
-					</tr>
+					<thead id="tblHead" name="tblHead">
+						<tr>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Band Name</th>
+						</tr>
+					</thead>
+					<tbody name="tabBody" id="tabBody" data-bind="foreach: artists">
+						<tr>
+							<td data-bind="text: first_name"></td>
+							<td data-bind="text: last_name"></td>
+							<td data-bind="text: band_name"></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		
@@ -102,8 +296,12 @@
 		
 						
 	<div id="plyDiv" name="plyDiv">
-		<button id="btnPlayPause" name="btnPlayPause" class="button play"></button>
-	</div>			
+		<button id="btnPlayPause" name="btnPlayPause" class="plybutton"></button>
+	</div>	
+	
+	<audio id="sptfyAud" name="sptfyAud" preload="none">
+		<source src="songs/AbaloneStreet.mp3" type="audio/mp3">
+	</audio>		
 	
 	
 </body>

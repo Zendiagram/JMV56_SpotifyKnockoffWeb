@@ -40,10 +40,9 @@ body{
 #sideBarDiv{
 	margin: auto;
 	float: left;
-	position: relative;
 	padding-top: 100px;
 	padding-left: 0px;
-	width: 18%;
+	min-width: 280px;
 	height:750px;
 	background-color: rgba(153, 153, 153, 0.25);
 	
@@ -51,7 +50,7 @@ body{
 
 #radDiv{
 	
-	padding-left: 85px;
+	padding-left: 30px;
 	
 }
 
@@ -70,8 +69,8 @@ body{
 }
 
 #frmDiv{
-	position: absolute;
-	bottom: 0;
+	margin-top: 30px;
+	vertical-align: middle;
 	
 }
 
@@ -80,12 +79,13 @@ body{
 	padding-bottom: 30px;
 }
 
-#songTitle{
+#searchBox{
 	border: 2px solid black;
 	width: 200px;
-	height: 30px;
+	height: 32px;
 	font-size: 14pt;
 	padding:4px;
+	vertical-align: middle;
 }
 
 #btnSubmit{
@@ -95,11 +95,11 @@ body{
 	font-size: 25pt;
 	color: #f2f2f2;
 	text-align: center;
+	vertical-align: middle;
 }
 
 #rghtContent{
-	float: left;
-	width: 82%;
+	
 }
 
 #tblDiv{
@@ -109,6 +109,7 @@ body{
 
 #tblData{
 	width: 100%;
+	cursor: pointer;
 }
 
 th{
@@ -121,6 +122,14 @@ td{
 	border-left: 2px dotted black;
 }
 
+.selected{
+	background-color: #737373;
+}
+
+.inviso{
+	display: none;
+}
+
 #plyDiv{
 	display: flex;
 	align-items: center;
@@ -131,14 +140,35 @@ td{
 	width: 75%;
 }
 
-.button.play{
+.plybutton{
+	border: 0;
+	box-sizing: border-box;
+	height: 74px;
+	width: 0;
+	border-color: transparent transparent transparent #009933;
+	transition: 100ms all ease;	
 	background-color: transparent;
 	margin: 4px;
 	padding: 0px;
-	box-sizing: border-box;
-	width: 74px;
-	height: 74px;
+	cursor: pointer;
+	
 	border-style: solid;
-	border-width: 37px 0px 37px 74px;
-	border-color: transparent transparent transparent #009933;	
+	border-width: 37px 0 37px 74px; 
 }
+
+.pausebutton{
+	border: 0;
+	box-sizing: border-box;
+	height: 74px;
+	width: 0;
+	border-color: transparent transparent transparent #009933;
+	transition: 100ms all ease;	
+	background-color: transparent;
+	margin: 4px;
+	padding: 0px;
+	cursor: pointer;
+	
+	border-style: double;
+	border-width: 0px 0 0px 74px; 	
+}
+

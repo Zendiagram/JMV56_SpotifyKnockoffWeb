@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="JMV56_SpotifyStyleSheet.css">
+<link rel="shortcut icon" href="favicon.ico">
 <title>Spotify Knockoff</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
@@ -17,7 +18,13 @@ var selectedAlbumId = null;
 var artistBio = null;
 var selectedArtistId = null;
 
+
 $(document).ready(function(){
+	
+	$("#radRadioSongs").prop('checked', true);
+	var searchTerm = "";
+	tabSongs();
+	search(searchTerm);
 	
 	$(".radio").click(function(){
 		if ($("#radRadioAlbums").is(":checked")){
@@ -46,7 +53,7 @@ $(document).ready(function(){
 		
 		var searchTerm = "";
 		
-		console.log(searchTerm);
+		//console.log(searchTerm);
 		search(searchTerm);
 	})  //end of radio button click funtion
 
@@ -71,14 +78,27 @@ $(document).ready(function(){
 		
 		var searchTerm = $("#searchBox").val();
 		
-		console.log(searchTerm);
+		//console.log(searchTerm);
 		search(searchTerm);
 	});  //end of submit button onclick function 
+	
+	$('#searchBox').keyup(function(){
+		var searchTerm = $("#searchBox").val();
+		if(searchTerm.length > 1){
+			//console.log(searchTerm);
+			autoSearch(searchTerm);
+		}
+		else{
+			var tbl = $("#autoTblData");
+			tbl.empty();
+		}
+		
+	})
 	
 	var plyBttn = $("#btnPlayPause");
 	
 	plyBttn.click(function(){
-		console.log(songLocation);
+		//console.log(songLocation);
 		if(songLocation != null){
 			plyBttn.toggleClass("pausebutton");
 			
@@ -92,7 +112,7 @@ $(document).ready(function(){
 				song.pause();
 			
 			song.onended = function() {
-				console.log("The audio has ended")
+				//console.log("The audio has ended")
 				plyBttn.toggleClass("pausebutton");
 			}
 			
@@ -111,7 +131,7 @@ $(document).ready(function(){
 
 function search(searchTerm){
 	var searchUrl = "api/search_spotifyko?searchTerm=" + searchTerm;
-	console.log(searchUrl);
+	//console.log(searchUrl);
 	$.get(searchUrl, function(data){
 		
 		songSearchResults(data);
@@ -119,14 +139,120 @@ function search(searchTerm){
 	
 }
 
+function autoSearch(searchTerm){
+	//console.log("autoSearch function called")
+	$("#autoComDiv").removeClass("inviso");
+	var searchUrl = "api/autocomplete_spotifyko?searchTerm=" + searchTerm;
+	$.get(searchUrl, function(data){
+		autoSearchResults(data);
+	});
+}
+
+
+function autoSearchResults(data){
+	//console.log("autoSearchResults function called")
+	console.log(data);
+	var tbl = $("#autoTblData");
+	tbl.empty();
+	var displayLimit = 20;
+	
+	if ($("#radRadioSongs").is(":checked")){
+		console.log(data.songs.length);
+		if(data.songs.length < 20){
+			displayLimit = data.songs.length;
+		}
+		
+		for(var i = 0; i < displayLimit; i++){
+			var tr = $("<tr class='autoTblRow'></tr>");
+			var td = $("<td></td>");
+			//console.log(data.songs[1]);
+			td.html(data.songs[i].title);
+			tr.append(td);
+			
+			tbl.append(tr);
+		}
+	}  //ends of songs autocomplete case
+	
+	if ($("#radRadioAlbums").is(":checked")){
+		console.log(data.albums.length);
+		if(data.albums.length < 20){
+			displayLimit = data.albums.length;
+		}
+		
+		for(var i = 0; i < displayLimit; i++){
+			var tr = $("<tr class='autoTblRow'></tr>");
+			var td = $("<td></td>");
+			//console.log(data.songs[1]);
+			td.html(data.albums[i].title);
+			tr.append(td);
+			
+			tbl.append(tr);
+		}
+	}  //end of albums auto complete case
+	
+	if ($("#radRadioArtists").is(":checked")){
+		console.log(data.artists.length);
+		var autoArt = [];
+		var loopLimit = data.artists.length;
+		var artLoopTerm = $("#searchBox").val();
+		
+		for(var i = 0; i < loopLimit; i++){
+			if(data.artists[i].band_name.substr(0, artLoopTerm.length).toUpperCase() == artLoopTerm.toUpperCase()){
+				autoArt.push(data.artists[i].band_name)
+			}
+		}
+		
+		for(var i = 0; i < loopLimit; i++){
+			//console.log(data.artists[i].first_name);
+			if(data.artists[i].first_name.substr(0, artLoopTerm.length).toUpperCase() == artLoopTerm.toUpperCase()){
+				autoArt.push(data.artists[i].first_name)
+			}
+		}
+		
+		for(var i = 0; i < loopLimit; i++){
+			if(data.artists[i].last_name.substr(0, artLoopTerm.length).toUpperCase() == artLoopTerm.toUpperCase()){
+				autoArt.push(data.artists[i].last_name)
+			}
+		}
+				
+		autoArt.sort();
+		
+		if(autoArt.length < 20){
+			displayLimit = autoArt.length;
+		}
+		
+		for(var i = 0; i < displayLimit; i++){
+			var tr = $("<tr class='autoTblRow'></tr>");
+			var td = $("<td></td>");
+			//console.log(data.songs[1]);
+			td.html(autoArt[i]);
+			tr.append(td);
+			
+			tbl.append(tr);
+		}
+		//console.log(autoArt);
+	}
+	
+	autoHighLight();
+		
+} //end of autoSearchResults funtion
+
 
 function songSearchResults(data){
 	ko.cleanNode(document.getElementById('tabBody'));
-	console.log(data);
+	//console.log(data);
 	ko.applyBindings(data, document.getElementById('tabBody'));
 	
 }
 
+function autoHighLight(){
+	$("#autoTblData").on("click", "tr", function(e){
+		$(this).addClass('autoSelected').siblings().removeClass('autoSelected');
+		var setBox = $(".autoSelected td:first").text();
+		$("#searchBox").val(setBox);
+	});
+
+}
 function highLight(){
 	$("#tblData").on("click", "tr", function(e) {
 		//alert("you clicked a row");
@@ -259,12 +385,23 @@ function artistList(){
 					<label for="radRadioSongs" class="radLbl">Songs</label><br/>
 			</div>
 			
-			<div id="frmDiv" name="frmDiv">
+			
+			<div id="frmDiv" name="frmDiv" class="autocomplete">
 				
 				<input type="text" name="searchBox" value="" id="searchBox"  placeholder="search...">
 				<input type="submit" id="btnSubmit" value="Go">		
 				
 			</div>
+			
+			<div id="autoComDiv" name="autoComDiv" class="inviso">
+				<table id="autoTblData" name="autoTblData">
+					<tr>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+				
+			
 		</div>
 	
 		<div id="rghtContent" name="rghtContent">

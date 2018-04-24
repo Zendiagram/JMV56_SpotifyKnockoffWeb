@@ -20,6 +20,12 @@ import edu.pitt.spotify.utils.ErrorLogger;
 
 /**
  * Servlet implementation class search_spotifyko
+ * This servlet describes the methods and functionality for main table populating queries in the application.
+ * There are two sets of queries, one for a provided search term and one if the search term is left blank.  When a radio button is first clicked in the application
+ * the full set of data is pulled from the database.
+ * 
+ * @author James Van Poolen
+ * @version 1.0
  */
 @WebServlet("/api/search_spotifyko")
 public class search_spotifyko extends HttpServlet {

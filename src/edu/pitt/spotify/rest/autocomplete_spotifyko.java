@@ -20,6 +20,12 @@ import edu.pitt.spotify.utils.ErrorLogger;
 
 /**
  * Servlet implementation class autocomplete_spotifyko
+ * 
+ * This servlet defines methods and provides structure used to return data for the autocomplete function of the application.
+ * A separate servlet is need because the SQL queries are missing a wildcard compared to the servlet that populates the main table of the application.
+ * 
+ * @author James Van Poolen
+ * @version 1.0
  */
 @WebServlet("/api/autocomplete_spotifyko")
 public class autocomplete_spotifyko extends HttpServlet {
@@ -53,7 +59,7 @@ public class autocomplete_spotifyko extends HttpServlet {
 				if(!searchTerm.equals("")) {
 					
 					try {
-						
+						//Autocomplete functionality against the song table
 						sql = "SELECT * FROM song WHERE title LIKE '" + searchTerm + "%' LIMIT " + RESULTS_LIMIT + ";";
 						//response.getWriter().write(sql);
 						JSONArray songList = new JSONArray();
@@ -75,7 +81,7 @@ public class autocomplete_spotifyko extends HttpServlet {
 						
 						
 						
-						
+						//Autocomplete functionality against the album table
 						sql = "SELECT * FROM album WHERE title LIKE '" + searchTerm + "%' LIMIT " + RESULTS_LIMIT + ";";
 						//response.getWriter().write(sql);
 						JSONArray albumList = new JSONArray();
@@ -100,7 +106,7 @@ public class autocomplete_spotifyko extends HttpServlet {
 						
 						
 						
-						
+						//Autocomplete functionality against the artist table
 						sql = "SELECT * FROM artist "
 								+ "WHERE first_name LIKE '" + searchTerm + "%' "
 								+ "OR last_name LIKE '" + searchTerm + "%' "

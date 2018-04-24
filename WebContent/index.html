@@ -231,7 +231,7 @@ function autoSearchResults(data){
 			tbl.append(tr);
 		}
 		//console.log(autoArt);
-	}
+	}//end of artists auto complete case
 	
 	autoHighLight();
 		
@@ -273,7 +273,7 @@ function highLight(){
 		}
 		
 		if ($("#radRadioSongs").is(":checked")){
-			songLocation = "songs/AbaloneStreet.mp3"  //$(".selected td:nth-child(4)").text();
+			songLocation = "songs/AbaloneStreet.mp3"  //$(".selected td:nth-child(4)").text(); Too enable the application to use the song location in the database we could use this commented line.
 			selectedSongId = $(".selected td:nth-child(5)").text();
 			//console.log(songLocation + selectedSongId);
 		}
@@ -425,8 +425,8 @@ function artistList(){
 			</div>
 		
 			<div id="artAndBio" name="artAndBio">
-				<p>Here is a bit of text</p>
-				<p>This space will be used to display album art and bio information when selected</p>
+				<p></p>
+				<p></p>
 			</div>
 		</div>
 	</div>
